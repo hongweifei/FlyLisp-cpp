@@ -237,7 +237,7 @@ namespace FlyLisp
 
     Token::~Token()
     {
-        
+        delete this->value;
     }
 
 

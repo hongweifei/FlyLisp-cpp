@@ -12,15 +12,15 @@
 
 namespace FlyLisp
 {
-    FILE *using_fp = NULL;
-    uint32_t line = 1;
-    uint32_t cols = 0;
-    uint32_t prev_cols = 1;
+    static FILE *using_fp = NULL;
+    static uint32_t line = 1;
+    static uint32_t cols = 0;
+    static uint32_t prev_cols = 1;
 
 
-    bool *letter_table;     //字母表
-    bool *symbol_table;     //符号表
-    bool *number_table;     //ascii总共256个字符
+    static bool *letter_table;     //字母表
+    static bool *symbol_table;     //符号表
+    static bool *number_table;     //ascii总共256个字符
 
 
     void table_init();
@@ -68,7 +68,7 @@ namespace FlyLisp
 
 
 
-#endif
+#endif // __LEXER_HEAD__
 
 
 

@@ -132,10 +132,11 @@ start_get_token:
             case EOF:
                 return NULL;
             case '\n':
-                on_get = next_line();
+                line++;
+                prev_cols = cols;
+                cols = 1;
                 continue;
             case ' ':
-                on_get = next_ch();
                 continue;
             
             default:

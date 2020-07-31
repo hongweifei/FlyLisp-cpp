@@ -1,6 +1,7 @@
 
 
 
+
 #ifndef __TOKEN_HEAD__
 #define __TOKEN_HEAD__
 
@@ -88,9 +89,9 @@ namespace FlyLisp
         KW_STRING,          // string
     };
 
-    ::std::map<TokenType, const char*> type_map;
-    ::std::map<const char*, TokenType> value_map;
-    ::std::map<const char*, TokenType> keyword_map;
+    static ::std::map<TokenType, const char*> type_map;
+    static ::std::map<const char*, TokenType> value_map;
+    static ::std::map<const char*, TokenType> keyword_map;
     void token_map_init();
     const char *stringify_token_type(TokenType type) noexcept;
     int get_str_token_type(const char *str) noexcept;         //存在返回其类型，否则返回 -1
@@ -124,7 +125,11 @@ namespace FlyLisp
         ::std::vector<Token*> token;
 
     public:
-        TokenStream();
+        TokenStream()
+        {
+
+        }
+
         ~TokenStream()
         {
             this->token.clear();
