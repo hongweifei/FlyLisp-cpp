@@ -241,7 +241,7 @@ namespace FlyLisp
     }
 
 
-    void Token::Print()
+    void Token::print()
     {
         printf("TokenType:%d\n",this->type);
         printf("TokenValue:%s\n",this->value->c_str());

@@ -113,7 +113,7 @@ namespace FlyLisp
         Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols);
         ~Token();
 
-        void Print();
+        void print();
     };
 
 
