@@ -48,7 +48,7 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_EOF, "EOF"));
 
 
-        type_map.insert(::std::map<TokenType, const char*>::value_type (TK_IDENT, "IDENT"));
+        type_map.insert(::std::map<TokenType, const char*>::value_type (TK_IDENTIFIER, "IDENTIFIER"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_NONE, "NONE"));
 
 
@@ -124,7 +124,7 @@ namespace FlyLisp
         value_map.insert(::std::map<const char*, TokenType>::value_type ("EOF", TK_EOF));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("IDENT", TK_IDENT));
+        value_map.insert(::std::map<const char*, TokenType>::value_type ("IDENTIFIER", TK_IDENTIFIER));
         value_map.insert(::std::map<const char*, TokenType>::value_type ("NONE", TK_NONE));
 
 
@@ -246,7 +246,7 @@ namespace FlyLisp
         printf("TokenType:%d\n",this->type);
         printf("TokenValue:%s\n",this->value->c_str());
         printf("TokenLine:%d\n",this->line);
-        printf("TokenCols:%d\n",this->cols);
+        printf("TokenCols:%d\n\n",this->cols);
     }
 
 } // namespace FlyLisp

@@ -8,11 +8,11 @@
 #include <stdint.h>
 #include <string>
 #include <map>
+#include <vector>
 
 
 namespace FlyLisp
 {
-
 
     enum TokenType : uint8_t
     {
@@ -52,7 +52,7 @@ namespace FlyLisp
         TK_EOF,                     //文件结束符
 
         /*标识符*/
-        TK_IDENT,           //标识符
+        TK_IDENTIFIER,           //标识符
         TK_NONE,            //空
 
         /**/
@@ -64,7 +64,7 @@ namespace FlyLisp
         KW_IMPORT,          // import
         KW_RETURN,          // return
         KW_IF,              // if
-        KW_ELSE,
+        KW_ELSE,            // else
         KW_SWITCH,          // switch
         KW_WHILE,           // while
         KW_FOR,             // for
@@ -116,6 +116,49 @@ namespace FlyLisp
         void print();
     };
 
+    
+
+    class TokenStream
+    {    
+    private:
+        ::std::vector<Token*> token;
+
+    public:
+        TokenStream();
+        ~TokenStream()
+        {
+            this->token.clear();
+        };
+
+        Token *operator[](size_t index)
+        {
+            return this->token[index];
+        }
+
+
+    public:
+        bool empty() const noexcept
+        {
+            return this->token.empty();
+        }
+
+        size_t size() const noexcept
+        {
+            return this->token.size();
+        }
+
+        void push(Token *token) noexcept
+        {
+            if (token != NULL)
+                this->token.push_back(token);
+        }
+
+        TokenStream &clear() noexcept
+        {
+            this->token.clear();
+            return *this;
+        }
+    };
 
 
 
