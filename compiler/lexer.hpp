@@ -42,6 +42,8 @@ namespace FlyLisp
     int prev_ch();
     int next_line();
     Token *get_token(FILE *fp);
+    TokenStream &get_token_stream(FILE *fp);
+
 } // namespace FlyLisp
 
 

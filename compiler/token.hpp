@@ -158,6 +158,14 @@ namespace FlyLisp
             this->token.clear();
             return *this;
         }
+
+        void print()
+        {
+            for (size_t i = 0; i < this->token.size(); i++)
+            {
+                this->token[i]->print();
+            }
+        }
     };
 
 

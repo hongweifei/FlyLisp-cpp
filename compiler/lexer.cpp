@@ -339,6 +339,18 @@ start_get_token:
     }
 
 
+    TokenStream &get_token_stream(FILE *fp)
+    {
+        TokenStream stream;
+        Token *token = get_token(fp);
+        while (token != NULL)
+        {
+            stream.push(token);
+            token = get_token(fp);
+        }
+        return stream;
+    }
+
 
 } // namespace FlyLisp
 
