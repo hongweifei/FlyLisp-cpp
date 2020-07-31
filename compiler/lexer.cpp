@@ -60,6 +60,13 @@ namespace FlyLisp
     }
 
 
+    void lexer_init()
+    {
+        token_map_init();
+        table_init();
+    }
+
+
     bool is_digit(const char ch)
     {
         return number_table[ch];
@@ -150,45 +157,41 @@ start_get_token:
         /**数字*/
         if (is_digit(on_get))
         {
-            char *value = (char*)calloc(256,sizeof(char));
-            uint8_t index = 0;
-            value[index] = on_get;
+            ::std::string value;
+            value += ch;
 
             on_get = next_ch();
             while (is_digit(on_get))
             {
-                index++;
-                value[index] = on_get;
+                value += ch;
                 on_get = next_ch();
             }
             prev_ch();
 
-            ::std::string str(value);
-            return new Token(TK_CNUMBER,str,line,cols);
+            int length = value.length();
+            return new Token(TK_CNUMBER,value,line,cols - length);
         }
 
         /**标识符*/
         else if (is_letter(on_get) || on_get == '_')
         {
-            char *value = (char*)calloc(256,sizeof(char));
-            uint8_t index = 0;
-            value[index] = on_get;
+            ::std::string value;
+            value += ch;
 
             on_get = next_ch();
             while (is_letter(on_get) || on_get == '_')
             {
-                index++;
-                value[index] = on_get;
+                value += ch;
                 on_get = next_ch();
             }
             prev_ch();
 
-            int type = str_is_keyword(value);
-            ::std::string str(value);
+            int type = str_is_keyword(value.c_str());
+            int length = value.length();
             if (type == -1)
-                return new Token(TK_IDENTIFIER,str,line,cols);
+                return new Token(TK_IDENTIFIER,value,line,cols - length);
             else
-                return new Token(TokenType(type),str,line,cols);
+                return new Token(TokenType(type),value,line,cols - length);
         }
 
 
@@ -214,7 +217,8 @@ start_get_token:
                 }
             }
 
-            return new Token(TK_CSTR,value,line,cols);
+            int length = value.length();
+            return new Token(TK_CSTR,value,line,cols - length);
         }
 
 
@@ -272,7 +276,7 @@ start_get_token:
             else
             {
                 prev_ch();
-                return new Token(TK_DIVIDE,::std::string("/"),line,cols);
+                return new Token(TK_DIVIDE,::std::string("/"),line,cols - 1);
             }
         }
 
@@ -285,12 +289,12 @@ start_get_token:
             if (on_get == '=')
             {
                 value += "=";
-                return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols);
+                return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols - 2);
             }
             else
             {
                 prev_ch();
-                return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols);
+                return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols - 1);
             }
         }
 
@@ -300,11 +304,11 @@ start_get_token:
         {
             on_get = next_ch();
             if (on_get == '>')
-                return new Token(TK_POINTSTO,"->",line,cols);
+                return new Token(TK_POINTSTO,"->",line,cols - 2);
             else
             {
                 prev_ch();
-                return new Token(TK_MINUS,"-",line,cols);
+                return new Token(TK_MINUS,"-",line,cols - 1);
             }
         }
 
@@ -315,12 +319,12 @@ start_get_token:
             int next_ch1 = next_ch();
             int next_ch2 = next_ch();
             if (next_ch1 == '.' && next_ch2 == '.')
-                return new Token(TK_ELLIPSIS,"...",line,cols);
+                return new Token(TK_ELLIPSIS,"...",line,cols - 3);
             else
             {
                 prev_ch();
                 prev_ch();
-                return new Token(TK_DOT,".",line,cols);
+                return new Token(TK_DOT,".",line,cols - 1);
             }
         }
 
@@ -333,7 +337,7 @@ start_get_token:
             if (type == -1)
                 return NULL;
             else
-                return new Token(TokenType(type),value,line,cols);
+                return new Token(TokenType(type),value,line,cols - 1);
         }
 
         return NULL;
@@ -346,7 +350,7 @@ start_get_token:
         Token *token = get_token(fp);
         while (token != NULL)
         {
-            stream.push(token);
+            stream.push(*token);
             token = get_token(fp);
         }
         return stream;

@@ -106,7 +106,7 @@ namespace FlyLisp
     public:
         
         TokenType type;
-        const ::std::string *value;
+        const ::std::string *value = NULL;
         uint32_t line;//行数
         uint32_t cols;//偏移，列数 offset
 
@@ -122,12 +122,12 @@ namespace FlyLisp
     class TokenStream
     {    
     private:
-        ::std::vector<Token*> token;
+        ::std::vector<Token> token;
 
     public:
         TokenStream()
         {
-
+            this->token = ::std::vector<Token>();
         }
 
         ~TokenStream()
@@ -135,7 +135,7 @@ namespace FlyLisp
             this->token.clear();
         };
 
-        Token *operator[](size_t index)
+        Token &operator[](size_t index)
         {
             return this->token[index];
         }
@@ -147,14 +147,10 @@ namespace FlyLisp
             return this->token.empty();
         }
 
-        size_t size() const noexcept
-        {
-            return this->token.size();
-        }
 
-        void push(Token *token) noexcept
+        void push(Token &token) noexcept
         {
-            if (token != NULL)
+            if (token.value != NULL)
                 this->token.push_back(token);
         }
 
@@ -168,7 +164,7 @@ namespace FlyLisp
         {
             for (size_t i = 0; i < this->token.size(); i++)
             {
-                this->token[i]->print();
+                this->token[i].print();
             }
         }
     };

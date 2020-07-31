@@ -24,6 +24,7 @@ namespace FlyLisp
 
 
     void table_init();
+    void lexer_init();
 
 
     //判断一个字符是否为数字
