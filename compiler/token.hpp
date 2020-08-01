@@ -124,9 +124,11 @@ namespace FlyLisp
         void print();
     };
 
+    char *str(int32_t number);
 
     #define TokenStream ::std::vector<FlyLisp::Token*>  //token流
     void TokenStreamPrint(TokenStream &stream);         //输出token流中的各个token
+    void TokenStreamWrite(TokenStream &stream,FILE *fp);
 
 } // namespace FlyLisp
 

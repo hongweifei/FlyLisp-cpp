@@ -100,7 +100,7 @@ namespace FlyLisp
         if (ch == '\n')
         {
             line--;
-            cols = prev_cols;
+            cols = prev_line_cols;
         }
         else
             cols--;
@@ -110,9 +110,9 @@ namespace FlyLisp
     int next_line()
     {
         line++;
-        prev_cols = cols;
-        cols = 1;
-        return fgetc(using_fp);
+        prev_line_cols = cols;
+        cols = 0;
+        return next_ch();
     }
 
 
@@ -142,15 +142,13 @@ start_get_token:
 
         case '\n':
             line++;
-            prev_cols = cols;
-            cols = 1;
+            prev_line_cols = cols;
+            cols = 0;
             return get_token(fp);
 
         case ' ':
         case '\t':
         case '\r':
-            prev_cols = cols;
-            cols++;
             return get_token(fp);
             
         default:
@@ -294,8 +292,8 @@ start_get_token:
         /**不等于，等于，大于等于，小于等于,赋值*/
         else if (ch == '!' || ch == '=' || ch == '<' || ch == '>')
         {
-            ch = next_ch();
             value += ch;
+            ch = next_ch();
             if (ch == '=')
             {
                 value += "=";

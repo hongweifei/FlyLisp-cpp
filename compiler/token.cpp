@@ -324,11 +324,53 @@ namespace FlyLisp
     }
 
 
+    int get_digit_number(int32_t number)
+    {
+        int count = 0;
+        if (number <= 0)
+        {
+            number = -number;
+            ++count;
+        }
+        while (number)
+        {
+            number /= 10;
+            ++count;
+        }
+        return count;
+    }
+
+
+    char *str(int32_t number)
+    {
+        char *str = (char*)calloc(get_digit_number(number),sizeof(char));
+        sprintf(str,"%d",number);
+        return str;
+    }
+
 
     void TokenStreamPrint(TokenStream &stream)
     {
         for (size_t i = 0; i < stream.size(); i++)
             stream[i]->print();
+    }
+
+    void TokenStreamWrite(TokenStream &stream,FILE *fp)
+    {
+        for (size_t i = 0; i < stream.size(); i++)
+        {
+            fputs("TokenType:",fp);
+            fputs(str(stream[i]->type),fp);
+            fputs("\nTokenValue:",fp);
+            fputs(stream[i]->value.c_str(),fp);
+            fputs("\nTokenLine:",fp);
+            fputs(str(stream[i]->line),fp);
+            fputs("\nTokenCols:",fp);
+            fputs(str(stream[i]->cols),fp);
+            fputs("\n\n\n",fp);
+        }
+        
+        
     }
 
 } // namespace FlyLisp

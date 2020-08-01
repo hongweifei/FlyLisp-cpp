@@ -15,7 +15,7 @@ namespace FlyLisp
     static FILE *using_fp = NULL;
     static uint32_t line = 1;
     static uint32_t cols = 0;
-    static uint32_t prev_cols = 1;
+    static uint32_t prev_line_cols = 1;
 
 
     static bool *letter_table;     //字母表
