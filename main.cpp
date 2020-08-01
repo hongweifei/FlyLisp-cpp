@@ -24,23 +24,6 @@ int main(int argc,char *argv[])
 
         TokenStream stream = get_token_stream(fp);
         TokenStreamPrint(stream);
-        
-        /*
-        fseek(fp,0L,SEEK_SET);
-        FlyLisp::Token *token = FlyLisp::get_token(fp);
-        
-
-    print:
-        if (token != NULL)
-            token->print();
-        else
-        {
-            token = FlyLisp::get_token(fp);
-            goto print;
-        }    
-
-        delete token;
-        */
     }
     else
     {
