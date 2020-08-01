@@ -62,6 +62,7 @@ namespace FlyLisp
 
     void lexer_init()
     {
+        token_table_init();
         token_map_init();
         table_init();
     }
@@ -195,12 +196,12 @@ start_get_token:
             }
             prev_ch();
 
-            int type = str_is_keyword(value.c_str());
+            TokenType type = str_is_keyword(value);
             int length = value.length();
             if (type == TK_NONE)
                 return new Token(TK_IDENTIFIER,value,line,cols - length);
             else
-                return new Token(TokenType(type),value,line,cols - length);
+                return new Token(type,value,line,cols - length);
         }
 
 
@@ -298,12 +299,12 @@ start_get_token:
             if (ch == '=')
             {
                 value += "=";
-                return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols - 2);
+                return new Token(get_str_token_type(value),value,line,cols - 2);
             }
             else
             {
                 prev_ch();
-                return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols - 1);
+                return new Token(get_str_token_type(value),value,line,cols - 1);
             }
         }
 
@@ -351,7 +352,6 @@ start_get_token:
 
     TokenStream &get_token_stream(FILE *fp)
     {
-        
         TokenStream *stream = new TokenStream();
         Token *token = get_token(fp);
 

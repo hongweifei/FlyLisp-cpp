@@ -15,6 +15,7 @@
 namespace FlyLisp
 {
 
+    //token类型
     enum TokenType : uint8_t
     {
 
@@ -91,14 +92,15 @@ namespace FlyLisp
         KW_STRING,          // string
     };
 
-    #define TOKEN_TYPE_NUMBER  sizeof(TokenType) / sizeof(uint8_t)
-    static ::std::string type_table[TOKEN_TYPE_NUMBER];
+    #define TOKEN_TYPE_NUMBER  sizeof(TokenType) / sizeof(uint8_t)  //token类型的数量
+    static ::std::string type_table[TOKEN_TYPE_NUMBER];             //type表，可以通过类型获取其字符串
 
     //static ::std::map<TokenType, const char*> type_map;
-    static ::std::map<::std::string, TokenType> value_map;
-    static ::std::map<::std::string, TokenType> keyword_map;
-    void token_map_init();
-    const char *stringify_token_type(TokenType type) noexcept;
+    static ::std::map<::std::string, TokenType> value_map;          //可通过字符串获取其类型
+    static ::std::map<::std::string, TokenType> keyword_map;        //用来判断一个字符串是否是关键字
+    void token_table_init();                                        //初始化table
+    void token_map_init();                                          //初始化map
+    const char *stringify_token_type(TokenType type) noexcept;      //获取类型的字符串
     TokenType get_str_token_type(::std::string str) noexcept;           //存在返回其类型，否则返回 -1
     TokenType str_is_keyword(::std::string str) noexcept;               //是keyword符号其类型，否则返回 -1
 
@@ -123,8 +125,8 @@ namespace FlyLisp
     };
 
 
-    #define TokenStream ::std::vector<FlyLisp::Token*>
-    void TokenStreamPrint(TokenStream &stream);
+    #define TokenStream ::std::vector<FlyLisp::Token*>  //token流
+    void TokenStreamPrint(TokenStream &stream);         //输出token流中的各个token
 
 } // namespace FlyLisp
 

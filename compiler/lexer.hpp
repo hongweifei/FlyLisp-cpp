@@ -23,27 +23,20 @@ namespace FlyLisp
     static bool *number_table;     //ascii总共256个字符
 
 
-    void table_init();
-    void lexer_init();
+    void table_init();                          //初始化表
+    void lexer_init();                          //词法分析前要初始化
 
+    
+    bool is_digit(const char ch);               //判断一个字符是否为数字
+    bool is_letter(const char ch);              //判断一个字符是否为字母
+    bool is_symbol(const char ch);              //判断一个字符是否为符号
 
-    //判断一个字符是否为数字
-    bool is_digit(const char ch);
-
-    //判断一个字符是否为字母
-    bool is_letter(const char ch);
-
-    //判断一个字符是否为符号
-    bool is_symbol(const char ch);
-
-
-
-
-    int next_ch();
-    int prev_ch();
-    int next_line();
-    Token *get_token(FILE *fp);
-    TokenStream &get_token_stream(FILE *fp);
+    
+    int next_ch();                              //读取下一个字符
+    int prev_ch();                              //回到上一个字符
+    int next_line();                            //下一行
+    Token *get_token(FILE *fp);                 //获取token
+    TokenStream &get_token_stream(FILE *fp);    //获取TokenStream
 
 } // namespace FlyLisp
 
