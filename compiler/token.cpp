@@ -66,6 +66,7 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_FOR, "for"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_UNION, "union"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_STRUCT, "struct"));
+        type_map.insert(::std::map<TokenType, const char*>::value_type (KW_ENUM, "enum"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_CLASS, "class"));
 
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_VAR, "var"));
@@ -88,78 +89,79 @@ namespace FlyLisp
 
         /**value map init*/
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("+", TK_PLUS));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("-", TK_MINUS));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("*", TK_STAR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("/", TK_DIVIDE));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("%", TK_MOD));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("==", TK_EQ));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("!=", TK_NEQ));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("<", TK_LT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("<=", TK_LEQ));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (">", TK_GT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (">=", TK_GEQ));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("=", TK_ASSIGN));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("->", TK_POINTSTO));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (".", TK_DOT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("&", TK_AND));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("|", TK_OR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (":", TK_THAN));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("+", TK_PLUS));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("-", TK_MINUS));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("*", TK_STAR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("/", TK_DIVIDE));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("%", TK_MOD));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("==", TK_EQ));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("!=", TK_NEQ));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("<", TK_LT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("<=", TK_LEQ));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (">", TK_GT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (">=", TK_GEQ));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("=", TK_ASSIGN));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("->", TK_POINTSTO));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (".", TK_DOT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("&", TK_AND));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("|", TK_OR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (":", TK_THAN));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("!", TK_FALSE));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("!", TK_FALSE));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("(", TK_OPENPA));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (")", TK_CLOSEPA));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("[", TK_OPENBR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("]", TK_CLOSEBR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("{", TK_BEGIN));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("}", TK_END));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (";", TK_SEMICOLON));
-        value_map.insert(::std::map<const char*, TokenType>::value_type (",", TK_COMMA));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("...", TK_ELLIPSIS));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("(", TK_OPENPA));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (")", TK_CLOSEPA));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("[", TK_OPENBR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("]", TK_CLOSEBR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("{", TK_BEGIN));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("}", TK_END));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (";", TK_SEMICOLON));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type (",", TK_COMMA));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("...", TK_ELLIPSIS));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("EOF", TK_EOF));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("EOF", TK_EOF));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("IDENTIFIER", TK_IDENTIFIER));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("NONE", TK_NONE));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("IDENTIFIER", TK_IDENTIFIER));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("NONE", TK_NONE));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("NUMBER", TK_CNUMBER));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("CHAR", TK_CCHAR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("STRING", TK_CSTR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("NUMBER", TK_CNUMBER));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("CHAR", TK_CCHAR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("STRING", TK_CSTR));
 
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("import", KW_IMPORT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("return", KW_RETURN));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("if", KW_IF));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("else", KW_ELSE));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("switch", KW_SWITCH));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("while", KW_WHILE));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("for", KW_FOR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("union", KW_UNION));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("struct", KW_STRUCT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("class", KW_CLASS));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("import", KW_IMPORT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("return", KW_RETURN));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("if", KW_IF));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("else", KW_ELSE));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("switch", KW_SWITCH));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("while", KW_WHILE));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("for", KW_FOR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("union", KW_UNION));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("struct", KW_STRUCT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("enum", KW_ENUM));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("class", KW_CLASS));
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("var", KW_VAR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("function", KW_FUNCTION));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("func", KW_FUNCTION));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("var", KW_VAR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("function", KW_FUNCTION));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("func", KW_FUNCTION));
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("null", KW_NULL));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("NULL", KW_NULL));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("null", KW_NULL));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("NULL", KW_NULL));
 
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("void", KW_VOID));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("short", KW_SHORT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("int", KW_INT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("long", KW_LONG));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("float", KW_FLOAT));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("double", KW_DOUBLE));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("bool", KW_BOOL));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("char", KW_CHAR));
-        value_map.insert(::std::map<const char*, TokenType>::value_type ("string", KW_STRING));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("void", KW_VOID));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("short", KW_SHORT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("int", KW_INT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("long", KW_LONG));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("float", KW_FLOAT));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("double", KW_DOUBLE));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("bool", KW_BOOL));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("char", KW_CHAR));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("string", KW_STRING));
 
 
 
@@ -168,33 +170,34 @@ namespace FlyLisp
 
         /**keyword map init*/
 
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("import", KW_IMPORT));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("return", KW_RETURN));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("if", KW_IF));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("else", KW_ELSE));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("switch", KW_SWITCH));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("while", KW_WHILE));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("for", KW_FOR));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("union", KW_UNION));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("struct", KW_STRUCT));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("class", KW_CLASS));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("import", KW_IMPORT));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("return", KW_RETURN));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("if", KW_IF));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("else", KW_ELSE));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("switch", KW_SWITCH));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("while", KW_WHILE));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("for", KW_FOR));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("union", KW_UNION));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("struct", KW_STRUCT));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("enum", KW_ENUM));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("class", KW_CLASS));
 
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("var", KW_VAR));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("function", KW_FUNCTION));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("func", KW_FUNCTION));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("var", KW_VAR));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("function", KW_FUNCTION));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("func", KW_FUNCTION));
 
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("null", KW_NULL));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("NULL", KW_NULL));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("null", KW_NULL));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("NULL", KW_NULL));
 
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("void", KW_VOID));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("short", KW_SHORT));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("int", KW_INT));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("long", KW_LONG));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("float", KW_FLOAT));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("double", KW_DOUBLE));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("bool", KW_BOOL));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("char", KW_CHAR));
-        keyword_map.insert(::std::map<const char*, TokenType>::value_type ("string", KW_STRING));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("void", KW_VOID));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("short", KW_SHORT));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("int", KW_INT));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("long", KW_LONG));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("float", KW_FLOAT));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("double", KW_DOUBLE));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("bool", KW_BOOL));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("char", KW_CHAR));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("string", KW_STRING));
     }
 
 
@@ -206,30 +209,31 @@ namespace FlyLisp
             return "<unknown type>";
     }
 
-    int get_str_token_type(const char *str) noexcept
+    TokenType get_str_token_type(::std::string str) noexcept
     {
-        if (value_map.count(str))
-            return value_map[str];
-        else
-            return -1;
+        return value_map[str];
     }
 
 
-    int str_is_keyword(const char *str) noexcept
+    TokenType str_is_keyword(::std::string str) noexcept
     {
-        if (keyword_map.count(str))
-            return keyword_map[str];
-        else
-            return -1;
+        return keyword_map[str];
     }
 
 
+    Token::Token()
+    {
+        this->type = TK_NONE;
+        this->value = ::std::string();
+        this->line = 0;
+        this->cols = 0;
+    }
 
     
     Token::Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols)
     {
         this->type = type;
-        this->value = &value;
+        this->value = value;
         this->line = line;
         this->cols = cols;
     }
@@ -237,16 +241,24 @@ namespace FlyLisp
 
     Token::~Token()
     {
-        delete this->value;
+
     }
 
 
     void Token::print()
     {
         printf("TokenType:%d\n",this->type);
-        printf("TokenValue:%s\n",this->value->c_str());
+        printf("TokenValue:%s\n",this->value.c_str());
         printf("TokenLine:%d\n",this->line);
         printf("TokenCols:%d\n\n",this->cols);
+    }
+
+
+
+    void TokenStreamPrint(TokenStream &stream)
+    {
+        for (size_t i = 0; i < stream.size(); i++)
+            stream[i]->print();
     }
 
 } // namespace FlyLisp

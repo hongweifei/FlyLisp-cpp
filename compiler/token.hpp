@@ -17,6 +17,9 @@ namespace FlyLisp
 
     enum TokenType : uint8_t
     {
+
+        TK_NONE = 0,                //空
+
         /*运算符和分隔符*/
         TK_PLUS,                    // +   加号
         TK_MINUS,                   // -   减号
@@ -36,9 +39,7 @@ namespace FlyLisp
         TK_OR,                      // |
         TK_THAN,                    // :
 
-
         TK_FALSE,                   // !
-
 
         TK_OPENPA,                  // (   左圆括号
         TK_CLOSEPA,                 // )   有圆括号
@@ -54,7 +55,7 @@ namespace FlyLisp
 
         /*标识符*/
         TK_IDENTIFIER,           //标识符
-        TK_NONE,            //空
+
 
         /**/
         TK_CNUMBER,         //
@@ -71,6 +72,7 @@ namespace FlyLisp
         KW_FOR,             // for
         KW_UNION,           // union
         KW_STRUCT,          // struct
+        KW_ENUM,
         KW_CLASS,           // class
 
 
@@ -90,12 +92,12 @@ namespace FlyLisp
     };
 
     static ::std::map<TokenType, const char*> type_map;
-    static ::std::map<const char*, TokenType> value_map;
-    static ::std::map<const char*, TokenType> keyword_map;
+    static ::std::map<::std::string, TokenType> value_map;
+    static ::std::map<::std::string, TokenType> keyword_map;
     void token_map_init();
     const char *stringify_token_type(TokenType type) noexcept;
-    int get_str_token_type(const char *str) noexcept;         //存在返回其类型，否则返回 -1
-    int str_is_keyword(const char *str) noexcept;             //是keyword符号其类型，否则返回 -1
+    TokenType get_str_token_type(::std::string str) noexcept;           //存在返回其类型，否则返回 -1
+    TokenType str_is_keyword(::std::string str) noexcept;               //是keyword符号其类型，否则返回 -1
 
 
 
@@ -106,70 +108,20 @@ namespace FlyLisp
     public:
         
         TokenType type;
-        const ::std::string *value = NULL;
+        ::std::string value;
         uint32_t line;//行数
         uint32_t cols;//偏移，列数 offset
 
-
+        Token();
         Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols);
         ~Token();
 
         void print();
     };
 
-    
 
-    class TokenStream
-    {    
-    private:
-        ::std::vector<Token> token;
-
-    public:
-        TokenStream()
-        {
-            this->token = ::std::vector<Token>();
-        }
-
-        ~TokenStream()
-        {
-            this->token.clear();
-        };
-
-        Token &operator[](size_t index)
-        {
-            return this->token[index];
-        }
-
-
-    public:
-        bool empty() const noexcept
-        {
-            return this->token.empty();
-        }
-
-
-        void push(Token &token) noexcept
-        {
-            if (token.value != NULL)
-                this->token.push_back(token);
-        }
-
-        TokenStream &clear() noexcept
-        {
-            this->token.clear();
-            return *this;
-        }
-
-        void print()
-        {
-            for (size_t i = 0; i < this->token.size(); i++)
-            {
-                this->token[i].print();
-            }
-        }
-    };
-
-
+    #define TokenStream ::std::vector<FlyLisp::Token*>
+    void TokenStreamPrint(TokenStream &stream);
 
 } // namespace FlyLisp
 

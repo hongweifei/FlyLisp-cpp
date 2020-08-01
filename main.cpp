@@ -11,6 +11,9 @@
 #include <stdio.h>
 
 
+using namespace FlyLisp;
+
+
 int main(int argc,char *argv[])
 {
 
@@ -19,9 +22,8 @@ int main(int argc,char *argv[])
         FlyLisp::lexer_init();
         FILE *fp = fopen(argv[1],"r");
 
-        
-        FlyLisp::TokenStream stream = FlyLisp::get_token_stream(fp);
-        stream.print();
+        TokenStream stream = get_token_stream(fp);
+        TokenStreamPrint(stream);
         
         /*
         fseek(fp,0L,SEEK_SET);

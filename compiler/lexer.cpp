@@ -13,7 +13,7 @@ namespace FlyLisp
     void table_init()
     {
         letter_table = (bool*)calloc(256,sizeof(bool));
-        symbol_table = (bool*)calloc(256,sizeof(bool));
+        symbol_table = (char*)calloc(256,sizeof(char));
         number_table = (bool*)calloc(256,sizeof(bool));
 
 
@@ -24,27 +24,27 @@ namespace FlyLisp
             letter_table[i] = true;
 
 
-        symbol_table['+'] = true;
-        symbol_table['-'] = true;
-        symbol_table['*'] = true;
-        symbol_table['/'] = true;
-        symbol_table['%'] = true;
-        symbol_table['='] = true;
-        symbol_table['!'] = true;
-        symbol_table['<'] = true;
-        symbol_table['>'] = true;
-        symbol_table['.'] = true;
-        symbol_table['&'] = true;
-        symbol_table['|'] = true;
-        symbol_table[':'] = true;
-        symbol_table['('] = true;
-        symbol_table[')'] = true;
-        symbol_table['['] = true;
-        symbol_table[']'] = true;
-        symbol_table['{'] = true;
-        symbol_table['}'] = true;
-        symbol_table[';'] = true;
-        symbol_table[','] = true;
+        symbol_table['+'] = '+';
+        symbol_table['-'] = '-';
+        symbol_table['*'] = '*';
+        symbol_table['/'] = '/';
+        symbol_table['%'] = '%';
+        symbol_table['='] = '=';
+        symbol_table['!'] = '!';
+        symbol_table['<'] = '<';
+        symbol_table['>'] = '>';
+        symbol_table['.'] = '.';
+        symbol_table['&'] = '&';
+        symbol_table['|'] = '|';
+        symbol_table[':'] = ':';
+        symbol_table['('] = '(';
+        symbol_table[')'] = ')';
+        symbol_table['['] = '[';
+        symbol_table[']'] = ']';
+        symbol_table['{'] = '{';
+        symbol_table['}'] = '}';
+        symbol_table[';'] = ';';
+        symbol_table[','] = ',';
 
 
         number_table['0'] = true;
@@ -122,73 +122,82 @@ namespace FlyLisp
             using_fp = fp;
             line = 1;
             cols = 0;
+            fseek(using_fp,0L,SEEK_SET);
         }
 
         //TokenType type = TK_NONE;
-        //::std::string value;
-        char ch[2] = {0,'\0'};
-        #define on_get ch[0]
+        ::std::string value;
+        char ch = 0;
+
+
 
 start_get_token:
-        while (true)
+        ch = next_ch();
+
+        switch (ch)
         {
-            on_get = next_ch();
+        case EOF:
+            return NULL;
 
-            switch (on_get)
-            {
-            case EOF:
-                return NULL;
-            case '\n':
-                line++;
-                prev_cols = cols;
-                cols = 1;
-                continue;
-            case ' ':
-                continue;
+        case '\n':
+            line++;
+            prev_cols = cols;
+            cols = 1;
+            return get_token(fp);
+
+        case ' ':
+        case '\t':
+        case '\r':
+            prev_cols = cols;
+            cols++;
+            return get_token(fp);
             
-            default:
-                break;
-            }
-
+        default:
             break;
         }
 
 
+
         /**数字*/
-        if (is_digit(on_get))
+        if (is_digit(ch))
         {
-            ::std::string value;
             value += ch;
 
-            on_get = next_ch();
-            while (is_digit(on_get))
+            ch = next_ch();
+            while (is_digit(ch) || ch == '.')
             {
                 value += ch;
-                on_get = next_ch();
+                ch = next_ch();
             }
             prev_ch();
 
             int length = value.length();
+            int dot_position = length - 1;
+            if (value[dot_position] == '.')
+            {
+                prev_ch();
+                value.erase(dot_position);
+            }
+
             return new Token(TK_CNUMBER,value,line,cols - length);
         }
 
         /**标识符*/
-        else if (is_letter(on_get) || on_get == '_')
+        else if (is_letter(ch) || ch == '_')
         {
-            ::std::string value;
             value += ch;
 
-            on_get = next_ch();
-            while (is_letter(on_get) || on_get == '_')
+            ch = next_ch();
+            while (is_letter(ch) || ch == '_' || is_digit(ch))
             {
                 value += ch;
-                on_get = next_ch();
+                ch = next_ch();
             }
             prev_ch();
 
             int type = str_is_keyword(value.c_str());
             int length = value.length();
-            if (type == -1)
+            if (type == TK_NONE)
                 return new Token(TK_IDENTIFIER,value,line,cols - length);
             else
                 return new Token(TokenType(type),value,line,cols - length);
@@ -196,24 +205,23 @@ start_get_token:
 
 
         /**字符串*/
-        else if (on_get == '\'' || on_get == '\"')
+        else if (ch == '\'' || ch == '\"')
         {
-            ::std::string value;
-            int symbol = on_get;
-            on_get = next_ch();
+            int symbol = ch;
+            ch = next_ch();
 
             while (true)
             {
-                if (on_get == EOF)
+                if (ch == EOF)
                     return NULL;
-                else if (on_get == '\n')
-                    on_get = next_line();
-                else if (on_get == symbol)
+                else if (ch == '\n')
+                    ch = next_line();
+                else if (ch == symbol)
                     break;
                 else
                 {
                     value += ch;
-                    on_get = next_ch();
+                    ch = next_ch();
                 }
             }
 
@@ -226,46 +234,46 @@ start_get_token:
     /**符号*/
 
         /**注释*/
-        else if (on_get == '/')
+        else if (ch == '/')
         {
-            on_get = next_ch();
+            ch = next_ch();
 
             //单行注释
-            if (on_get == '/')
+            if (ch == '/')
             {
-                on_get = next_ch();
-                while (on_get != '\n')
+                ch = next_ch();
+                while (ch != '\n')
                 {
-                    on_get = next_ch();
+                    ch = next_ch();
 
-                    if (on_get == EOF)
+                    if (ch == EOF)
                         return NULL;
                 }
                 prev_ch();
             }
 
             //多行注释
-            else if (on_get == '*')
+            else if (ch == '*')
             {
                 int star_line = line;
                 int star_cols = cols;
 
-                on_get = next_ch();
+                ch = next_ch();
 
                 while (true)
                 {
-                    if (on_get == EOF)
+                    if (ch == EOF)
                         return NULL;
-                    else if (on_get == '\n')
-                        on_get = next_line();
+                    else if (ch == '\n')
+                        ch = next_line();
                     else
                     {
-                        on_get = next_ch();
+                        ch = next_ch();
 
-                        if (on_get == '*')
+                        if (ch == '*')
                         {
                             if (next_ch() == '/')
-                                goto start_get_token;
+                                return get_token(fp);
                             else
                                 prev_ch();
                         }
@@ -276,17 +284,18 @@ start_get_token:
             else
             {
                 prev_ch();
-                return new Token(TK_DIVIDE,::std::string("/"),line,cols - 1);
+                value = "/";
+                return new Token(TK_DIVIDE,value,line,cols - 1);
             }
         }
 
 
         /**不等于，等于，大于等于，小于等于,赋值*/
-        else if (on_get == '!' || on_get == '=' || on_get == '<' || on_get == '>')
+        else if (ch == '!' || ch == '=' || ch == '<' || ch == '>')
         {
-            on_get = next_ch();
-            ::std::string value(ch);
-            if (on_get == '=')
+            ch = next_ch();
+            value += ch;
+            if (ch == '=')
             {
                 value += "=";
                 return new Token(TokenType(get_str_token_type(value.c_str())),value,line,cols - 2);
@@ -300,10 +309,10 @@ start_get_token:
 
 
         /** -> */
-        else if (on_get == '-')
+        else if (ch == '-')
         {
-            on_get = next_ch();
-            if (on_get == '>')
+            ch = next_ch();
+            if (ch == '>')
                 return new Token(TK_POINTSTO,"->",line,cols - 2);
             else
             {
@@ -314,7 +323,7 @@ start_get_token:
 
 
         /**省略号*/
-        else if (on_get == '.')
+        else if (ch == '.')
         {
             int next_ch1 = next_ch();
             int next_ch2 = next_ch();
@@ -330,14 +339,10 @@ start_get_token:
 
 
         /**其他符号*/
-        else if (is_symbol(on_get))
+        else if (is_symbol(ch))
         {
-            ::std::string value(ch);
-            int type = get_str_token_type(value.c_str());
-            if (type == -1)
-                return NULL;
-            else
-                return new Token(TokenType(type),value,line,cols - 1);
+            value += ch;
+            return new Token(get_str_token_type(value),value,line,cols - 1);
         }
 
         return NULL;
@@ -346,14 +351,16 @@ start_get_token:
 
     TokenStream &get_token_stream(FILE *fp)
     {
-        TokenStream stream;
+        
+        TokenStream *stream = new TokenStream();
         Token *token = get_token(fp);
+
         while (token != NULL)
         {
-            stream.push(*token);
+            stream->push_back(token);
             token = get_token(fp);
         }
-        return stream;
+        return *stream;
     }
 
 

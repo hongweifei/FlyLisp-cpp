@@ -19,7 +19,7 @@ namespace FlyLisp
 
 
     static bool *letter_table;     //字母表
-    static bool *symbol_table;     //符号表
+    static char *symbol_table;     //符号表
     static bool *number_table;     //ascii总共256个字符
 
 
@@ -43,6 +43,8 @@ namespace FlyLisp
     int prev_ch();
     int next_line();
     Token *get_token(FILE *fp);
+
+    //有bug
     TokenStream &get_token_stream(FILE *fp);
 
 } // namespace FlyLisp
