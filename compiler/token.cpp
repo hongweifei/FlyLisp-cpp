@@ -8,11 +8,9 @@
 
 namespace FlyLisp
 {
-
+    /*
     void token_table_init()
     {
-        /**type table init*/
-
         type_table[TK_NONE] = "NONE";
 
         type_table[TK_PLUS] = "+";
@@ -78,12 +76,12 @@ namespace FlyLisp
         type_table[KW_CHAR] = "char";
         type_table[KW_STRING] = "string";
     }
+    */
 
 
     void token_map_init()
     {
         /**token type map init*/
-        /*
 
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_NONE, "NONE"));
 
@@ -150,7 +148,7 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_BOOL, "boolean"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_CHAR, "char"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_STRING, "string"));
-        */
+        
 
 
 
@@ -268,17 +266,17 @@ namespace FlyLisp
 
     const char *stringify_token_type(TokenType type) noexcept
     {
-        /*
         if (type_map.count(type))
             return type_map[type];
         else
             return "<unknown type>";
-        */
 
+        /*
         if (type < TOKEN_TYPE_NUMBER)
             return type_table[type].c_str();
         else
             return "<unknown type>";
+        */
     }
 
     TokenType get_str_token_type(::std::string str) noexcept

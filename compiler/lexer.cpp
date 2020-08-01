@@ -62,7 +62,7 @@ namespace FlyLisp
 
     void lexer_init()
     {
-        token_table_init();
+        //token_table_init();
         token_map_init();
         table_init();
     }
