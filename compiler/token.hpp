@@ -91,7 +91,10 @@ namespace FlyLisp
         KW_STRING,          // string
     };
 
-    static ::std::map<TokenType, const char*> type_map;
+    #define TOKEN_TYPE_NUMBER  sizeof(TokenType) / sizeof(uint8_t)
+    static ::std::string type_table[TOKEN_TYPE_NUMBER];
+
+    //static ::std::map<TokenType, const char*> type_map;
     static ::std::map<::std::string, TokenType> value_map;
     static ::std::map<::std::string, TokenType> keyword_map;
     void token_map_init();

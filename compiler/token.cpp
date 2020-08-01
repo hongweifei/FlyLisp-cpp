@@ -8,9 +8,84 @@
 
 namespace FlyLisp
 {
+
+    void token_table_init()
+    {
+        /**type table init*/
+
+        type_table[TK_NONE] = "NONE";
+
+        type_table[TK_PLUS] = "+";
+        type_table[TK_MINUS] = "-";
+        type_table[TK_STAR] = "*";
+        type_table[TK_DIVIDE] = "/";
+        type_table[TK_MOD] = "%";
+        type_table[TK_EQ] = "==";
+        type_table[TK_NEQ] = "!=";
+        type_table[TK_LT] = "<";
+        type_table[TK_LEQ] = "<=";
+        type_table[TK_GT] = ">";
+        type_table[TK_GEQ] = ">=";
+        type_table[TK_ASSIGN] = "=";
+        type_table[TK_POINTSTO] = "->";
+        type_table[TK_DOT] = ".";
+        type_table[TK_AND] = "&";
+        type_table[TK_OR] = "|";
+        type_table[TK_THAN] = ":";
+
+        type_table[TK_FALSE] = "!";
+
+        type_table[TK_OPENPA] = "(";
+        type_table[TK_CLOSEPA] = ")";
+        type_table[TK_OPENBR] = "[";
+        type_table[TK_CLOSEBR] = "]";
+        type_table[TK_BEGIN] = "{";
+        type_table[TK_END] = "}";
+        type_table[TK_SEMICOLON] = ";";
+        type_table[TK_COMMA] = ",";
+        type_table[TK_ELLIPSIS] = "...";
+
+        type_table[TK_EOF] = "EOF";
+
+        type_table[TK_IDENTIFIER] = "IDENTIFIER";
+        type_table[TK_CNUMBER] = "NUMBER";
+        type_table[TK_CCHAR] = "CHAR";
+        type_table[TK_CSTR] = "STR";
+
+        type_table[KW_IMPORT] = "import";
+        type_table[KW_RETURN] = "return";
+        type_table[KW_IF] = "if";
+        type_table[KW_ELSE] = "else";
+        type_table[KW_SWITCH] = "switch";
+        type_table[KW_WHILE] = "while";
+        type_table[KW_FOR] = "for";
+        type_table[KW_UNION] = "union";
+        type_table[KW_STRUCT] = "struct";
+        type_table[KW_ENUM] = "enum";
+        type_table[KW_CLASS] = "class";
+
+        type_table[KW_VAR] = "var";
+        type_table[KW_FUNCTION] = "function";
+
+        type_table[KW_NULL] = "null";
+        type_table[KW_VOID] = "void";
+        type_table[KW_SHORT] = "short";
+        type_table[KW_INT] = "int";
+        type_table[KW_LONG] = "long";
+        type_table[KW_FLOAT] = "float";
+        type_table[KW_DOUBLE] = "double";
+        type_table[KW_BOOL] = "boolean";
+        type_table[KW_CHAR] = "char";
+        type_table[KW_STRING] = "string";
+    }
+
+
     void token_map_init()
     {
         /**token type map init*/
+        /*
+
+        type_map.insert(::std::map<TokenType, const char*>::value_type (TK_NONE, "NONE"));
 
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_PLUS, "+"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_MINUS, "-"));
@@ -18,7 +93,7 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_DIVIDE, "/"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_MOD, "%"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_EQ, "=="));
-        type_map.insert(::std::map<TokenType, const char*>::value_type (TK_NEQ, "!"));
+        type_map.insert(::std::map<TokenType, const char*>::value_type (TK_NEQ, "!="));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_LT, "<"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_LEQ, "<="));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_GT, ">"));
@@ -30,9 +105,7 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_OR, "|"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_THAN, ":"));
 
-
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_FALSE, "!"));
-
 
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_OPENPA, "("));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_CLOSEPA, ")"));
@@ -44,18 +117,13 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_COMMA, ","));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_ELLIPSIS, "..."));
 
-
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_EOF, "EOF"));
 
-
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_IDENTIFIER, "IDENTIFIER"));
-        type_map.insert(::std::map<TokenType, const char*>::value_type (TK_NONE, "NONE"));
-
 
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_CNUMBER, "NUMBER"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_CCHAR, "CHAR"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (TK_CSTR, "STR"));
-
 
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_IMPORT, "import"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_RETURN, "return"));
@@ -82,12 +150,13 @@ namespace FlyLisp
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_BOOL, "boolean"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_CHAR, "char"));
         type_map.insert(::std::map<TokenType, const char*>::value_type (KW_STRING, "string"));
-
-
+        */
 
 
 
         /**value map init*/
+
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("NONE", TK_NONE));
 
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("+", TK_PLUS));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("-", TK_MINUS));
@@ -121,18 +190,13 @@ namespace FlyLisp
         value_map.insert(::std::map<::std::string, TokenType>::value_type (",", TK_COMMA));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("...", TK_ELLIPSIS));
 
-
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("EOF", TK_EOF));
 
-
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("IDENTIFIER", TK_IDENTIFIER));
-        value_map.insert(::std::map<::std::string, TokenType>::value_type ("NONE", TK_NONE));
-
 
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("NUMBER", TK_CNUMBER));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("CHAR", TK_CCHAR));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("STRING", TK_CSTR));
-
 
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("import", KW_IMPORT));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("return", KW_RETURN));
@@ -160,9 +224,9 @@ namespace FlyLisp
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("float", KW_FLOAT));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("double", KW_DOUBLE));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("bool", KW_BOOL));
+        value_map.insert(::std::map<::std::string, TokenType>::value_type ("boolean", KW_BOOL));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("char", KW_CHAR));
         value_map.insert(::std::map<::std::string, TokenType>::value_type ("string", KW_STRING));
-
 
 
 
@@ -196,6 +260,7 @@ namespace FlyLisp
         keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("float", KW_FLOAT));
         keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("double", KW_DOUBLE));
         keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("bool", KW_BOOL));
+        keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("boolean", KW_BOOL));
         keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("char", KW_CHAR));
         keyword_map.insert(::std::map<::std::string, TokenType>::value_type ("string", KW_STRING));
     }
@@ -203,8 +268,15 @@ namespace FlyLisp
 
     const char *stringify_token_type(TokenType type) noexcept
     {
+        /*
         if (type_map.count(type))
             return type_map[type];
+        else
+            return "<unknown type>";
+        */
+
+        if (type < TOKEN_TYPE_NUMBER)
+            return type_table[type].c_str();
         else
             return "<unknown type>";
     }
