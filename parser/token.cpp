@@ -317,10 +317,14 @@ namespace FlyLisp
 
     void Token::print()
     {
+        /*
         printf("TokenType:%d\n",this->type);
         printf("TokenValue:%s\n",this->value.c_str());
         printf("TokenLine:%d\n",this->line);
         printf("TokenCols:%d\n\n",this->cols);
+        */
+
+        printf("[%d:%d %s %s]\n",this->line,this->cols,stringify_token_type(this->type),this->value.c_str());
     }
 
 

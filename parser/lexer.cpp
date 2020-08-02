@@ -101,6 +101,7 @@ namespace FlyLisp
         {
             line--;
             cols = prev_line_cols;
+            printf("上移一行\n");
         }
         else
             cols--;
@@ -111,7 +112,7 @@ namespace FlyLisp
     {
         line++;
         prev_line_cols = cols;
-        cols = 0;
+        cols = 1;
         return next_ch();
     }
 
@@ -122,7 +123,7 @@ namespace FlyLisp
         {
             using_fp = fp;
             line = 1;
-            cols = 0;
+            cols = 1;
             fseek(using_fp,0L,SEEK_SET);
         }
 
@@ -143,7 +144,7 @@ start_get_token:
         case '\n':
             line++;
             prev_line_cols = cols;
-            cols = 0;
+            cols = 1;
             return get_token(fp);
 
         case ' ':
@@ -168,15 +169,15 @@ start_get_token:
                 value += ch;
                 ch = next_ch();
             }
-            prev_ch();
 
-            int length = value.length();
-            int dot_position = length - 1;
-            if (value[dot_position] == '.')
+            ch = prev_ch();
+            if (ch == '.')
             {
                 prev_ch();
-                value.erase(dot_position);
+                value.pop_back();
             }
+
+            int length = value.length();
 
             return new Token(TK_CNUMBER,value,line,cols - length);
         }

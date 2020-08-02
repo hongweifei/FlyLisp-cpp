@@ -16,7 +16,7 @@ namespace FlyLisp
 {
 
     //token类型
-    enum TokenType : uint8_t
+    typedef enum token_type : uint8_t
     {
 
         TK_NONE = 0,                //空
@@ -90,7 +90,10 @@ namespace FlyLisp
         KW_BOOL,            // bool
         KW_CHAR,            // char关键字
         KW_STRING,          // string
-    };
+
+        KW_NUMBER,          // number
+    }TokenType;
+
 
     #define TOKEN_TYPE_NUMBER  sizeof(TokenType) / sizeof(uint8_t)  //token类型的数量
     //static ::std::string type_table[TOKEN_TYPE_NUMBER];           //type表，可以通过类型获取其字符串      这个玩意儿用不了map那个可以

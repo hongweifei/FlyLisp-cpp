@@ -13,8 +13,8 @@
 namespace FlyLisp
 {
     static FILE *using_fp = NULL;
-    static uint32_t line = 1;
-    static uint32_t cols = 0;
+    static uint64_t line = 1;
+    static uint32_t cols = 1;               // token 的 cols 是用其长度 - cols。如果用0，会出现 token 的 cols 为0。
     static uint32_t prev_line_cols = 1;
 
 
