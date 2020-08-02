@@ -101,7 +101,6 @@ namespace FlyLisp
         {
             line--;
             cols = prev_line_cols;
-            printf("上移一行\n");
         }
         else
             cols--;

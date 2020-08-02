@@ -28,13 +28,13 @@ int main(int argc,char *argv[])
         TokenStreamPrint(stream);
         TokenStreamWrite(stream,log);
 
-        Node *node = parse(stream);
+        Node *node = parse(&stream);
             
         while (node != NULL)
         {
             node->print();
             delete node;
-            node = parse(stream);
+            node = parse(&stream);
         }
 
         delete node;

@@ -1,5 +1,5 @@
 
 
-g++ *.cpp compiler/*.cpp
+g++ *.cpp parser/*.cpp
 
 pause
