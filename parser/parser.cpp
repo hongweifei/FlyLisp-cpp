@@ -65,22 +65,28 @@ namespace FlyLisp
 
     Node *parse_plus(Token *current)
     {
+        /*
+        if (current == NULL)
+            return NULL;
+        */
+
         back_trace.push(current);
 
-        Node *tree = new Node(current->value,NODE_TYPE_BINARY,current);
+        Node *tree = new Node(current->value,NODE_TYPE_UNARY,current);
         ::std::vector<Token*> tokens;
 
-        while (back_trace.top()->type != TK_END)
+        while (back_trace.top()->value != "}")
         {
             parse_list(current);
         }
 
+        back_trace.pop();                   //弹出括号
         Token *token = back_trace.top();
         back_trace.pop();
         while (token->type != TK_PLUS)
         {
             tokens.push_back(token);
-            Token *token = back_trace.top();
+            token = back_trace.top();
             back_trace.pop();
         }
         delete token;
@@ -99,7 +105,7 @@ namespace FlyLisp
         //tree->left = new Node("字面量",NODE_TYPE_UNARY,tokens[0]);
         //tree->right = new Node("+",NODE_TYPE_BINARY,new Token(TK_PLUS,"+",0,0));
         
-        
+
         if (token_number == 0)
         {
             tree->left = new Node("0",NODE_TYPE_UNARY,new Token(TK_CNUMBER,"0",0,0));
@@ -107,16 +113,18 @@ namespace FlyLisp
         }
         else if (token_number == 1)
         {
-            tree->left = new Node("0",NODE_TYPE_UNARY,tokens[0]);
+            tree->left = new Node(tokens[0]->value,NODE_TYPE_UNARY,tokens[0]);
             tree->right = new Node("0",NODE_TYPE_UNARY,new Token(TK_CNUMBER,"0",0,0));
         }
         else if(token_number == 2)
         {
-            tree->left = new Node("0",NODE_TYPE_UNARY,tokens[0]);
-            tree->right = new Node("0",NODE_TYPE_UNARY,tokens[1]);
+            tree->left = new Node(tokens[0]->value,NODE_TYPE_UNARY,tokens[0]);
+            tree->right = new Node(tokens[1]->value,NODE_TYPE_UNARY,tokens[1]);
         }
         else
         {
+            tree->type = NODE_TYPE_BINARY;
+
             // + 号数量为 number 数量 - 1
             Node *right = tree;
             for (size_t i = 0; i < token_number - 2; i++)
@@ -134,53 +142,56 @@ namespace FlyLisp
 
 
         if (tree->left != NULL)
+        {
+            parse_tree.push_back(tree);
             return tree;
+        }
         return NULL;
     }
 
 
-    void parse_minus(Token *current)
+    Node *parse_minus(Token *current)
     {
 
     }
 
 
-    void parse_multiply(Token *current)
+    Node *parse_multiply(Token *current)
     {
 
     }
 
-    void parse_divide(Token *current)
+    Node *parse_divide(Token *current)
     {
 
     }
 
-    void parse_less(Token *current)
+    Node *parse_less(Token *current)
     {
 
     }
 
-    void parse_greater(Token *current)
+    Node *parse_greater(Token *current)
     {
 
     }
 
-    void parse_equal(Token *current)
+    Node *parse_equal(Token *current)
     {
 
     }
 
-    void parse_less_equal(Token *current)
+    Node *parse_less_equal(Token *current)
     {
 
     }
 
-    void parse_greater_equal(Token *current)
+    Node *parse_greater_equal(Token *current)
     {
 
     }
 
-    void parse_not_equal(Token *current)
+    Node *parse_not_equal(Token *current)
     {
 
     }

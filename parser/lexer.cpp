@@ -97,13 +97,7 @@ namespace FlyLisp
     {
         fseek(using_fp,-2L,SEEK_CUR);
         int ch = fgetc(using_fp);
-        if (ch == '\n')
-        {
-            line--;
-            cols = prev_line_cols;
-        }
-        else
-            cols--;
+        cols--;
         return ch;
     }
 
@@ -129,7 +123,6 @@ namespace FlyLisp
         //TokenType type = TK_NONE;
         ::std::string value;
         char ch = 0;
-
 
 
 start_get_token:

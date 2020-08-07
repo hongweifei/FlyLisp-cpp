@@ -23,8 +23,8 @@
 namespace FlyLisp
 {
     
-    static ::std::vector<Node> parse_tree;
-    static ::std::stack<Node> parse_stack;
+    static ::std::vector<Node*> parse_tree;
+    static ::std::stack<Node*> parse_stack;
     static ::std::stack<Token*> back_trace;     //回溯
 
     static TokenStream *using_stream;
@@ -47,17 +47,17 @@ namespace FlyLisp
 
 
     Node *parse_plus(Token *current);             // +
-    void parse_minus(Token *current);             // -
-    void parse_multiply(Token *current);          // *
-    void parse_divide(Token *current);            // /
+    Node *parse_minus(Token *current);             // -
+    Node *parse_multiply(Token *current);          // *
+    Node *parse_divide(Token *current);            // /
 
-    void parse_less(Token *current);              // <
-    void parse_greater(Token *current);           // >
-    void parse_equal(Token *current);             // ==
+    Node *parse_less(Token *current);              // <
+    Node *parse_greater(Token *current);           // >
+    Node *parse_equal(Token *current);             // ==
 
-    void parse_less_equal(Token *current);        // <=
-    void parse_greater_equal(Token *current);     // >=
-    void parse_not_equal(Token *current);         // !=
+    Node *parse_less_equal(Token *current);        // <=
+    Node *parse_greater_equal(Token *current);     // >=
+    Node *parse_not_equal(Token *current);         // !=
 
     
     
