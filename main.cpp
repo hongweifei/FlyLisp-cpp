@@ -28,12 +28,6 @@ int main(int argc,char *argv[])
         TokenStreamPrint(stream);
         TokenStreamWrite(stream,log);
 
-
-        parse(&stream);
-        for (size_t i = 0; i < parse_tree.size(); i++)
-        {
-            parse_tree[i]->print();
-        }
         
     }
     else
