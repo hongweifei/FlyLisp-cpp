@@ -7,8 +7,7 @@
 
 
 
-#include "parser/lexer.hpp"
-#include "parser/parser.hpp"
+#include "compiler/lexer.hpp"
 #include <stdio.h>
 
 
@@ -28,7 +27,6 @@ int main(int argc,char *argv[])
         TokenStreamPrint(stream);
         TokenStreamWrite(stream,log);
 
-        
     }
     else
     {

@@ -92,7 +92,7 @@ namespace FlyLisp
         KW_STRING,          // string
 
         KW_NUMBER,          // number
-    }TokenType;
+    } TokenType;
 
 
     #define TOKEN_TYPE_NUMBER  sizeof(TokenType) / sizeof(uint8_t)  //token类型的数量
@@ -117,11 +117,12 @@ namespace FlyLisp
         
         TokenType type;
         ::std::string value;
-        uint32_t line;//行数
-        uint32_t cols;//偏移，列数 offset
+        uint32_t line;          //行数
+        uint32_t cols;          //列数
+        uint64_t offset;        //在文件中的偏移，用fseek(fp,offset,SEEK_SET);来跳到其位置
 
         Token();
-        Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols);
+        Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols, uint64_t offset = 0L);
         ~Token();
 
         void print();

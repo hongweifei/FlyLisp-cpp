@@ -297,15 +297,17 @@ namespace FlyLisp
         this->value = ::std::string();
         this->line = 0;
         this->cols = 0;
+        this->offset = 0L;
     }
 
     
-    Token::Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols)
+    Token::Token(TokenType type, const ::std::string &value, uint32_t line, uint32_t cols, uint64_t offset)
     {
         this->type = type;
         this->value = value;
         this->line = line;
         this->cols = cols;
+        this->offset = offset;
     }
 
 
